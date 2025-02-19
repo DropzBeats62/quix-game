@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QUIX</title>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="game-container">
+        <h1 id="game-title"><i class="fas fa-trophy"></i> QUIX <i class="fas fa-trophy"></i></h1>
+        <div id="start-screen">
+            <button id="start-button">Démarrer la partie</button>
+        </div>
+
+        <div id="quiz-content" style="display: none;">
+            <div id="progress-bar-container">
+                <div id="progress-bar">
+                    <div id="progress"></div>
+                </div>
+            </div>
+            <div id="question-container">
+                <h2 id="question">Question</h2>
+                <div id="question-number-container">
+                    <span id="question-number"></span>
+                </div>
+                <div id="choices">
+                    <button class="choice choice-1">Choix 1</button>
+                    <button class="choice choice-2">Choix 2</button>
+                    <button class="choice choice-3">Choix 3</button>
+                    <button class="choice choice-4">Choix 4</button>
+                </div>
+            </div>
+            <div id="result" style="display: none;">
+                <p id="result-message"></p>
+                <p id="final-score"></p> {/* Pour afficher le score */}
+                <button id="restart-button">Recommencer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

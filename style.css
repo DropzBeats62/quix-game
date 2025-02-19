@@ -1,0 +1,222 @@
+/* (Le CSS est inchangé par rapport à la version précédente,
+   donc je ne le remets pas ici pour éviter la redondance.
+   Copiez-le simplement depuis la réponse précédente.) */
+
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;  /* Important pour le centrage vertical */
+    margin: 0;         /* Supprime les marges par défaut du body */
+    background-color: #f0f0f0;
+    transition: background-color 0.5s ease;
+    /* zoom: 1.2;  Supprimé : on gère la taille autrement */
+}
+
+#game-container {
+    background-color: white;
+    padding: 20px;       /* Réduit légèrement le padding */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;   /* Réduit la largeur maximale */
+    width: 90%;         /* Réduit légèrement la largeur */
+    box-sizing: border-box; /* Important! */
+}
+
+
+/* Titre (conservez les styles, ajustez si besoin) */
+#game-title {
+    font-size: 3em; /* Réduit légèrement la taille */
+    margin-bottom: 25px; /* Réduit légèrement la marge */
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pulse 2s infinite;
+}
+#game-title i {
+    margin: 0 12px;
+    color: #4CAF50;
+}
+
+/* Start Screen (ajustez les tailles si besoin) */
+
+#start-screen {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#start-button {
+    padding: 12px 24px; /* Réduit légèrement */
+    font-size: 1em;   /* Réduit légèrement */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+#start-button:hover {
+    background-color: #3e8e41;
+    transform: scale(1.05);
+}
+
+/* Progress Bar (ajustez si besoin) */
+#progress-bar-container {
+     width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px; /* Réduit légèrement*/
+}
+
+#progress-bar {
+    width: 90%;       /* Réduit légèrement */
+    height: 25px;      /* Réduit légèrement */
+    border: 2px solid #333;
+    border-radius: 12px; /* Ajusté */
+    overflow: hidden;
+}
+
+#progress {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    border-radius: 10px; /* Ajusté */
+    transition: width 0.5s ease, background-color 0.5s ease;
+}
+/* Question Container (ajustez si besoin) */
+#question-container {
+    margin-bottom: 15px; /* Réduit */
+}
+#question {
+    font-size: 1.2em;  /* Réduit légèrement */
+    color: #333;
+    margin-bottom: 10px; /* Réduit */
+}
+
+#question-number-container {
+    display: inline-block;
+    padding: 4px 8px;   /* Réduit légèrement */
+    border: 2px solid #555;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 8px;  /* Réduit */
+}
+
+#question-number {
+    font-style: italic;
+    color: #555;
+    font-size: 0.9em;   /* Réduit légèrement */
+    font-weight: normal;
+}
+
+/* Choices (ajustez si besoin) */
+
+#choices {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;          /* Réduit légèrement */
+    width: 100%;
+}
+
+.choice {
+    padding: 10px;     /* Réduit légèrement */
+    font-size: 0.9em;  /* Réduit légèrement */
+    border: 2px solid;
+    border-radius: 8px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+}
+
+.choice-1 {
+    border-color: #fdd835;
+    color: #776711;
+    background-color: #fff9c4;
+}
+
+.choice-2 {
+    border-color: #81c784;
+    color: #305e38;
+    background-color: #e8f5e9;
+}
+
+.choice-3 {
+    border-color: #64b5f6;
+    color: #1a4d70;
+    background-color: #e3f2fd;
+}
+
+.choice-4 {
+    border-color: #ef5350;
+    color: #6d1f1f;
+    background-color: #ffebee;
+}
+.choice:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Result Screen */
+#result {
+    /* Ajoutez des styles ici, par exemple : */
+     padding: 10px; /* Un peu d'espace intérieur */
+ 
+ }
+   #result-message{
+       font-size: 1.2em; /* Réduit */
+       font-weight: bold;
+       margin-bottom: 5px;
+   }
+ 
+   #final-score {
+       font-size: 1em;    /* Réduit */
+       margin-bottom: 10px;
+       color: #555;
+   }
+ 
+   #restart-button {
+       padding: 10px 20px; /* Réduit */
+       font-size: 0.9em;   /* Réduit */
+       background-color: #4CAF50;
+       color: white;
+       border: none;
+       border-radius: 8px;
+       cursor: pointer;
+       transition: background-color 0.3s ease, transform 0.2s ease;
+   }
+ 
+   #restart-button:hover {
+       background-color: #3e8e41;
+       transform: scale(1.05);
+   }
+
+/* Couleurs de fond dynamiques (conservez) */
+.easy-mode {
+    background-color: #e0f7e0;
+}
+
+.medium-mode {
+    background-color: #fff0d9;
+}
+
+.hard-mode {
+    background-color: #ffe0e0;
+}
+/* Animation (conservez) */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
