@@ -308,13 +308,13 @@ let score = 0;
 let hasAnswered = false;
 let questionsForCurrentGame = [];
 
-// Elements du DOM (TRÈS IMPORTANT: Vérifiez que ces IDs correspondent *exactement* à votre HTML)
+// Elements du DOM
 const questionElement = document.getElementById("question");
 const choicesElement = document.getElementById("choices");
 const progressElement = document.getElementById("progress");
 const resultElement = document.getElementById("result");
 const resultMessageElement = document.getElementById("result-message");
-const finalScoreElement = document.getElementById("final-score"); //  <-- Assurez-vous que cet ID existe!
+const finalScoreElement = document.getElementById("final-score"); // Important: Assurez-vous que cet ID existe dans votre HTML
 const restartButton = document.getElementById("restart-button");
 const startButton = document.getElementById("start-button");
 const startScreen = document.getElementById("start-screen");
@@ -322,22 +322,19 @@ const quizContent = document.getElementById("quiz-content");
 const questionNumberElement = document.getElementById("question-number");
 
 // Sons (chargement dynamique)
-let correctSound;
-let incorrectSound;
+let correctSound = new Audio("correct.mp3");  //  <--  Chargement *avant* startGame
+let incorrectSound = new Audio("incorrect.mp3"); //  <--  Chargement *avant* startGame
 
-function loadSounds() {
-   correctSound = new Audio("correct.mp3");  //  <--  Chemins corrects ?
-   incorrectSound = new Audio("incorrect.mp3"); //  <--  Chemins corrects ?
+// Gestionnaires d'erreurs (toujours importants)
+correctSound.onerror = () => {
+   console.error("Erreur de chargement: correct.mp3");
+   correctSound = null;
+};
+incorrectSound.onerror = () => {
+   console.error("Erreur de chargement: incorrect.mp3");
+   incorrectSound = null;
+};
 
-   correctSound.onerror = () => {
-       console.error("Erreur lors du chargement de correct.mp3");
-       correctSound = null;
-   };
-   incorrectSound.onerror = () => {
-       console.error("Erreur lors du chargement de incorrect.mp3");
-       incorrectSound = null;
-   };
-}
 
 function startGame() {
    currentQuestionIndex = 0;
@@ -348,10 +345,6 @@ function startGame() {
    quizContent.style.display = "block";
    prepareQuestions();
    loadQuestion();
-
-   if (!correctSound || !incorrectSound) {
-       loadSounds();
-   }
 }
 
 function prepareQuestions() {
@@ -373,16 +366,17 @@ function shuffleArray(array) {
    }
 }
 
+
 function loadQuestion() {
    if (currentQuestionIndex >= questionsForCurrentGame.length) {
-       endGame(true); // Fin du jeu (victoire)
+       endGame(true);
        return;
    }
    hasAnswered = false;
    const currentQuestion = questionsForCurrentGame[currentQuestionIndex];
    questionElement.textContent = currentQuestion.question;
    questionNumberElement.textContent = `${currentQuestionIndex + 1} / 60`;
-   choicesElement.innerHTML = ""; // Efface les anciens boutons
+   choicesElement.innerHTML = "";
    currentQuestion.choices.forEach((choice, index) => {
        const button = document.createElement("button");
        button.textContent = choice;
@@ -394,8 +388,7 @@ function loadQuestion() {
 
    updateProgressBar();
 
-   // Couleurs de fond (easy, medium, hard)
-   if (currentQuestionIndex < 20) {
+     if (currentQuestionIndex < 20) {
        document.body.classList.add("easy-mode");
        document.body.classList.remove("medium-mode", "hard-mode");
    } else if (currentQuestionIndex < 40) {
@@ -407,8 +400,9 @@ function loadQuestion() {
    }
 }
 
+
 function selectAnswer(selectedIndex) {
-   if (hasAnswered) return; // Empêche de répondre plusieurs fois
+   if (hasAnswered) return;
    hasAnswered = true;
 
    const currentQuestion = questionsForCurrentGame[currentQuestionIndex];
@@ -420,16 +414,16 @@ function selectAnswer(selectedIndex) {
        }
        currentQuestionIndex++;
        if (currentQuestionIndex < questionsForCurrentGame.length) {
-           loadQuestion(); // Question suivante
+           loadQuestion();
        } else {
-           endGame(true); // Fin du jeu (victoire)
+           endGame(true);
        }
    } else {
        // Mauvaise réponse
        if (incorrectSound) {
            incorrectSound.play();
        }
-       endGame(false); // Fin du jeu (défaite)  <--  C'est ici que le jeu se termine en cas de mauvaise réponse
+       endGame(false); // Fin du jeu en cas de mauvaise réponse
    }
 }
 
@@ -450,22 +444,23 @@ function endGame(isWin) {
 
    if (isWin) {
        resultMessageElement.textContent = "Félicitations ! Vous avez gagné !";
-       finalScoreElement.textContent = ""; // Pas de score affiché si victoire
+       finalScoreElement.textContent = ""; // Pas de score en cas de victoire
 
    } else {
-       // Défaite
+
        resultMessageElement.textContent = "Vous avez perdu!";
-       finalScoreElement.textContent = `Votre score : ${score} / 60`; //  <--  AFFICHAGE DU SCORE
+       finalScoreElement.textContent = `Votre score : ${score} / 60`; // Affiche le score
    }
 
    startButton.textContent = "Recommencer la partie";
    startButton.removeEventListener("click", startGame);
    startButton.addEventListener("click", startGame);
 
-   restartButton.removeEventListener("click", startGame); // Pas de bug de double startGame
-   progressElement.style.width = "0%"; // Réinitialise la barre
+   restartButton.removeEventListener("click", startGame);
+   progressElement.style.width = "0%";
    questionNumberElement.textContent = "";
+
    document.body.classList.remove("easy-mode", "medium-mode", "hard-mode");
 }
 
-startButton.addEventListener("click", startGame); // Lance le jeu au clic sur le bouton
+startButton.addEventListener("click", startGame);
