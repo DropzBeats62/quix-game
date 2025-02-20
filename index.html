@@ -2,14 +2,16 @@
 <html>
 <head>
     <title>QUIX</title>
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="game-container">
         <h1 id="game-title"><i class="fas fa-trophy"></i> QUIX <i class="fas fa-trophy"></i></h1>
+
         <div id="start-screen">
             <button id="start-button">Démarrer la partie</button>
         </div>
@@ -31,11 +33,16 @@
                     <button class="choice choice-3">Choix 3</button>
                     <button class="choice choice-4">Choix 4</button>
                 </div>
+                <div id="current-score-container">
+                    Score: <span id="current-score">0</span>
+                </div>
             </div>
+
+            {/* Écran de résultat - DOIT être en dehors de #question-container */}
             <div id="result" style="display: none;">
-                <p id="result-message"></p>
-                <p id="final-score"></p> {/* <--  ICI  */}
-                <button id="restart-button">Recommencer</button>
+                <p id="result-message"></p>  {/* <-- Message de résultat */}
+                <p id="final-score"></p>     {/* <-- Score final */}
+                <button id="restart-button">Recommencer</button> {/* <-- Bouton */}
             </div>
         </div>
     </div>
