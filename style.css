@@ -1,12 +1,12 @@
 /* General Styles */
 body {
-    font-family: 'Poppins', sans-serif; /* Police Google Fonts */
+    font-family: 'Poppins', sans-serif; /* Police principale (Poppins) */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #9b59b6, #3498db); /* Dégradé violet/bleu */
+    background: linear-gradient(135deg, #ffc36e, #fff9cf); /* Dégradé violet/bleu */
     transition: background-color 0.5s ease;
     color: white; /* Couleur de texte par défaut (pour le contraste) */
 }
@@ -26,23 +26,25 @@ body {
 
 /* Titre */
 #game-title {
-    font-family: 'Bangers', cursive; /* Police "fun" pour le titre */
-    font-size: 5em; /* Titre très grand */
+    font-family: 'Roboto Condensed', sans-serif; /* <-- Changement de police */
+    /* OU, si vous préférez Oswald : */
+    /* font-family: 'Oswald', sans-serif; */
+    font-size: 6em; /* <-- Titre beaucoup plus grand */
     margin-bottom: 40px;
-    color: #FFD700;  /* Couleur or */
+    color: #3f3f3f; /* <-- Bleu foncé/violet foncé */
     display: flex;
     align-items: center;
     justify-content: center;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-    animation: pulse 2s infinite, colorChange 5s infinite alternate;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* <-- Ombre plus subtile */
+    animation: pulse 1.5s infinite alternate; /* <-- Pulsation plus lente */
 }
 
 #game-title i {
-    margin: 0 20px; /* Plus d'espace */
-    color: #FFD700; /* Or */
-    animation: rotate 5s linear infinite;
+    margin: 0 15px; /* <-- Espace ajusté */
+    color: rgba(255, 218, 83, 0.7); /* <-- Bleu plus clair, légèrement transparent */
+    font-size: 1.5em; /* <-- Icônes plus petites */
+    animation: rotate 10s linear infinite; /* <-- Rotation plus lente */
 }
-
 /* Start Screen */
 #start-screen {
     text-align: center;
@@ -51,23 +53,23 @@ body {
 }
 
 #start-button {
-    padding: 18px 40px; /* Bouton beaucoup plus grand */
-    font-size: 1.6em; /* Texte plus grand */
-    font-family: 'Bangers', cursive; /* Même police que le titre */
-    background-color: #FFD700; /* Or */
-    color: #333; /* Texte foncé */
+    padding: 18px 40px;
+    font-size: 1.6em;
+    font-family: 'Bangers', cursive; /* On conserve Bangers pour le bouton */
+    background-color: #FFD700;
+    color: #333;
     border: none;
-    border-radius: 12px; /* Bords arrondis */
+    border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    animation: pulse-button 1.5s infinite;
+	animation: pulse-button 1.5s infinite;
 }
 
 #start-button:hover {
-    background-color: #e6c200; /* Or plus foncé au survol */
-    transform: scale(1.1); /* Zoom plus important */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Ombre plus forte */
+    background-color: #e6c200;
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* Progress Bar */
@@ -96,9 +98,9 @@ body {
 
 /* Question Container */
 #question-container {
+	opacity: 0; /* Initialement invisible */
     margin-bottom: 20px;
-    animation: slideIn 0.6s ease forwards;
-    opacity: 0;
+	animation: slideIn 0.6s ease forwards; /* Animation d'apparition */
 }
 
 #question {
@@ -126,7 +128,7 @@ body {
 
 /* Current Score */
 #current-score-container {
-    font-size: 1.2em;
+	font-size: 1.2em;
     color: #333;
     padding: 10px 15px;
     border: 3px solid #4CAF50;
@@ -144,7 +146,7 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     width: 100%;
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .choice {
@@ -230,7 +232,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    animation: pulse-button 1.5s infinite;
+	animation: pulse-button 1.5s infinite;
 }
 #restart-button:hover {
     background-color: #e6c200; /* Or plus foncé au survol */
@@ -274,21 +276,6 @@ body {
     50% { transform: scale(1.08); } /* Plus subtil */
     100% { transform: scale(1); }
 }
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes colorChange {
-    0%   { color: #FFD700; }  /* Or */
-    25%  { color: #fff; }     /* Blanc */
-     50%  { color: #4CAF50; }     /* Vert */
-     75%  { color: #fff; }     /* Blanc */
-    100% { color: #FFD700; }  /* Or */
-}
 /*Pour une couleur de texte plus sombre sur les fonds de couleur*/
 .easy-mode #question-container, .easy-mode #current-score-container,
 .medium-mode #question-container, .medium-mode #current-score-container,
@@ -307,4 +294,35 @@ body {
         transform: translateY(0) scale(1);
         opacity: 1;
     }
+}
+/* Styles pour les icônes (positionnement et animation) */
+.icon-container {
+    position: absolute;
+    font-size: 1.5em; /* Icônes plus petites */
+    color: rgba(76, 175, 80, 0.4);
+    z-index: -1;
+}
+
+#icon-top-left {
+    top: 20px;
+    left: 20px;
+    animation: rotate 15s linear infinite;
+}
+
+#icon-top-right {
+    top: 20px;
+    right: 20px;
+    animation: rotate 12s linear infinite reverse;
+}
+
+#icon-bottom-left {
+    bottom: 20px;
+    left: 20px;
+    animation: rotate 18s linear infinite;
+}
+
+#icon-bottom-right {
+    bottom: 20px;
+    right: 20px;
+    animation: rotate 10s linear infinite reverse;
 }
