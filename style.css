@@ -26,12 +26,12 @@ body {
 
 /* Titre */
 #game-title {
-    font-family: 'Roboto Condensed', sans-serif; /* <-- Changement de police */
+    font-family: 'Oswald', sans-serif; /* <-- Changement de police */
     /* OU, si vous préférez Oswald : */
     /* font-family: 'Oswald', sans-serif; */
     font-size: 6em; /* <-- Titre beaucoup plus grand */
     margin-bottom: 40px;
-    color: #3f3f3f; /* <-- Bleu foncé/violet foncé */
+    color: #272727; /* <-- Bleu foncé/violet foncé */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,7 +42,7 @@ body {
 #game-title i {
     margin: 0 15px; /* <-- Espace ajusté */
     color: rgba(255, 218, 83, 0.7); /* <-- Bleu plus clair, légèrement transparent */
-    font-size: 1.5em; /* <-- Icônes plus petites */
+    font-size: 0.75em; /* <-- Icônes plus petites */
     animation: rotate 10s linear infinite; /* <-- Rotation plus lente */
 }
 /* Start Screen */
@@ -191,9 +191,9 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 .correct-answer {
-    background-color: #c8e6c9 !important;
-    border-color: #4CAF50 !important;
-    color: #388e3c !important;
+    background-color: #33d065 !important;
+    border-color: #255233 !important;
+    color: #4c6655 !important;
 }
 
 /* Result Screen Styles  */
