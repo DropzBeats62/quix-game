@@ -1,130 +1,160 @@
+/* General Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif; /* Police Google Fonts */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;  /* Important pour le centrage vertical */
-    margin: 0;         /* Supprime les marges par défaut du body */
-    background-color: #f0f0f0;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #9b59b6, #3498db); /* Dégradé violet/bleu */
     transition: background-color 0.5s ease;
-    /* zoom: 1.2;  Supprimé : on gère la taille autrement */
+    color: white; /* Couleur de texte par défaut (pour le contraste) */
 }
 
 #game-container {
-    background-color: white;
-    padding: 20px;       /* Réduit légèrement le padding */
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 600px;   /* Réduit la largeur maximale */
-    width: 90%;         /* Réduit légèrement la largeur */
-    box-sizing: border-box; /* Important! */
+    max-width: 700px;
+    width: 95%;
+    box-sizing: border-box;
+    position: relative;
+    animation: cardEntrance 0.8s ease-out forwards;
 }
 
-
-/* Titre (conservez les styles, ajustez si besoin) */
+/* Titre */
 #game-title {
-    font-size: 3em; /* Réduit légèrement la taille */
-    margin-bottom: 25px; /* Réduit légèrement la marge */
-    color: #333;
+    font-family: 'Bangers', cursive; /* Police "fun" pour le titre */
+    font-size: 5em; /* Titre très grand */
+    margin-bottom: 40px;
+    color: #FFD700;  /* Couleur or */
     display: flex;
     align-items: center;
     justify-content: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    animation: pulse 2s infinite;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s infinite, colorChange 5s infinite alternate;
 }
+
 #game-title i {
-    margin: 0 12px;
-    color: #4CAF50;
+    margin: 0 20px; /* Plus d'espace */
+    color: #FFD700; /* Or */
+    animation: rotate 5s linear infinite;
 }
 
-/* Start Screen (ajustez les tailles si besoin) */
-
+/* Start Screen */
 #start-screen {
     text-align: center;
     margin-bottom: 20px;
-}
-#start-button {
-    padding: 12px 24px; /* Réduit légèrement */
-    font-size: 1em;   /* Réduit légèrement */
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-#start-button:hover {
-    background-color: #3e8e41;
-    transform: scale(1.05);
+    animation: fadeIn 1s ease forwards;
 }
 
-/* Progress Bar (ajustez si besoin) */
+#start-button {
+    padding: 18px 40px; /* Bouton beaucoup plus grand */
+    font-size: 1.6em; /* Texte plus grand */
+    font-family: 'Bangers', cursive; /* Même police que le titre */
+    background-color: #FFD700; /* Or */
+    color: #333; /* Texte foncé */
+    border: none;
+    border-radius: 12px; /* Bords arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    animation: pulse-button 1.5s infinite;
+}
+
+#start-button:hover {
+    background-color: #e6c200; /* Or plus foncé au survol */
+    transform: scale(1.1); /* Zoom plus important */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Ombre plus forte */
+}
+
+/* Progress Bar */
 #progress-bar-container {
-     width: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 25px; /* Réduit légèrement*/
+    margin-bottom: 25px;
 }
 
 #progress-bar {
-    width: 90%;       /* Réduit légèrement */
-    height: 25px;      /* Réduit légèrement */
+    width: 90%;
+    height: 25px;
     border: 2px solid #333;
-    border-radius: 12px; /* Ajusté */
+    border-radius: 12px;
     overflow: hidden;
 }
 
 #progress {
     height: 100%;
     width: 0%;
-    background-color: #4CAF50;
-    border-radius: 10px; /* Ajusté */
-    transition: width 0.5s ease, background-color 0.5s ease;
+    background-color: #4CAF50;  /* Couleur initiale */
+    border-radius: 10px;
+    transition: width 0.5s ease, background-color 0.5s ease; /* Transition de couleur */
 }
-/* Question Container (ajustez si besoin) */
+
+/* Question Container */
 #question-container {
-    margin-bottom: 15px; /* Réduit */
+    margin-bottom: 20px;
+    animation: slideIn 0.6s ease forwards;
+    opacity: 0;
 }
+
 #question {
-    font-size: 1.2em;  /* Réduit légèrement */
+    font-size: 1.4em;
     color: #333;
-    margin-bottom: 10px; /* Réduit */
+    margin-bottom: 15px;
+    font-weight: 600;
 }
 
 #question-number-container {
     display: inline-block;
-    padding: 4px 8px;   /* Réduit légèrement */
-    border: 2px solid #555;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    margin-bottom: 8px;  /* Réduit */
+    padding: 6px 12px;
+    border: 3px solid #555;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    margin-bottom: 12px;
 }
 
 #question-number {
     font-style: italic;
     color: #555;
-    font-size: 0.9em;   /* Réduit légèrement */
+    font-size: 1em;
     font-weight: normal;
 }
 
-/* Choices (ajustez si besoin) */
+/* Current Score */
+#current-score-container {
+    font-size: 1.2em;
+    color: #333;
+    padding: 10px 15px;
+    border: 3px solid #4CAF50;
+    background-color: #e0f7e0;
+    border-radius: 10px;
+    display: inline-block;
+    font-weight: bold;
+    margin-top: 20px;
+     margin-bottom: 15px;
+}
 
+/* Choices */
 #choices {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;          /* Réduit légèrement */
+    gap: 12px;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .choice {
-    padding: 10px;     /* Réduit légèrement */
-    font-size: 0.9em;  /* Réduit légèrement */
-    border: 2px solid;
-    border-radius: 8px;
+    padding: 15px;
+    font-size: 1em;
+    border: 3px solid;
+    border-radius: 10px;
     background-color: transparent;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
     box-sizing: border-box;
     width: 100%;
     height: auto;
@@ -153,65 +183,128 @@ body {
     color: #6d1f1f;
     background-color: #ffebee;
 }
-.choice:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-/* Result Screen */
-#result {
-    /* Ajoutez des styles ici, par exemple : */
-     padding: 10px; /* Un peu d'espace intérieur */
- 
- }
-   #result-message{
-       font-size: 1.2em; /* Réduit */
-       font-weight: bold;
-       margin-bottom: 5px;
-   }
- 
-   #final-score {
-       font-size: 1em;    /* Réduit */
-       margin-bottom: 10px;
-       color: #555;
-   }
- 
-   #restart-button {
-       padding: 10px 20px; /* Réduit */
-       font-size: 0.9em;   /* Réduit */
-       background-color: #4CAF50;
-       color: white;
-       border: none;
-       border-radius: 8px;
-       cursor: pointer;
-       transition: background-color 0.3s ease, transform 0.2s ease;
-   }
- 
-   #restart-button:hover {
-       background-color: #3e8e41;
-       transform: scale(1.05);
-   }
 
-/* Couleurs de fond dynamiques (conservez) */
+.choice:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.correct-answer {
+    background-color: #c8e6c9 !important;
+    border-color: #4CAF50 !important;
+    color: #388e3c !important;
+}
+
+/* Result Screen Styles  */
+#result {
+    padding: 20px;
+    border: 3px solid #d9534f; /* Red border */
+    border-radius: 15px;
+    background-color: #f9e6e6; /* Light red background */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: none; /* Initially hidden */
+}
+
+#result-message {
+    font-size: 2em; /* Larger text */
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #d9534f; /* Red color for defeat message */
+}
+
+#final-score {
+    font-size: 1.6em; /* Larger text */
+    margin-bottom: 20px;
+    color: #333; /* Darker text color */
+    font-weight: bold;
+}
+
+#restart-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-family: 'Bangers', cursive;
+    background-color: #FFD700;
+    color: #333;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    animation: pulse-button 1.5s infinite;
+}
+#restart-button:hover {
+    background-color: #e6c200; /* Or plus foncé au survol */
+    transform: scale(1.1); /* Zoom plus important */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Ombre plus forte */
+}
+
+/* Couleurs de fond dynamiques (en fonction du niveau) */
 .easy-mode {
-    background-color: #e0f7e0;
+  background: linear-gradient(135deg, #a5d6a7, #c8e6c9); /* Dégradé vert */
 }
 
 .medium-mode {
-    background-color: #fff0d9;
+    background: linear-gradient(135deg, #ffe082, #ffd54f); /* Dégradé orange */
 }
 
 .hard-mode {
-    background-color: #ffe0e0;
+    background: linear-gradient(135deg, #ef9a9a, #ffcdd2); /* Dégradé rouge */
 }
-/* Animation (conservez) */
+
+
+/* Animations */
+/* ... (conservez les animations pulse, fadeIn, slideIn, rotate, pulse-button) ... */
 @keyframes pulse {
-    0% {
-        transform: scale(1);
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; } /* Plus prononcé */
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes pulse-button {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); } /* Plus subtil */
+    100% { transform: scale(1); }
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes colorChange {
+    0%   { color: #FFD700; }  /* Or */
+    25%  { color: #fff; }     /* Blanc */
+     50%  { color: #4CAF50; }     /* Vert */
+     75%  { color: #fff; }     /* Blanc */
+    100% { color: #FFD700; }  /* Or */
+}
+/*Pour une couleur de texte plus sombre sur les fonds de couleur*/
+.easy-mode #question-container, .easy-mode #current-score-container,
+.medium-mode #question-container, .medium-mode #current-score-container,
+.hard-mode #question-container, .hard-mode #current-score-container
+{
+    color: #333;
+}
+
+/* Nouvelle animation pour le conteneur principal */
+@keyframes cardEntrance {
+    from {
+        transform: translateY(-50px) scale(0.9);
+        opacity: 0;
     }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
     }
 }
