@@ -303,112 +303,140 @@ const hardQuestions = [
 
 ];
 
-   let currentQuestionIndex = 0;
-   let score = 0;
-   let hasAnswered = false;
-   let questionsForCurrentGame = [];
+   let currentQuestionIndex = 0;  // Index de la question en cours (0 = première question)
+   let score = 0;                // Score du joueur (initialisé à 0)
+   let hasAnswered = false;      // Empêche de répondre plusieurs fois à une question
+   let questionsForCurrentGame = []; // Le tableau des 60 questions sélectionnées pour la partie
+   let shuffledChoices = []; // Déclaration de shuffledChoices au niveau global du script
+   
    
    // ---------------------------------------------
    // ÉLÉMENTS DU DOM (Raccourcis vers le HTML)
    // ---------------------------------------------
    
+   // Éléments pour afficher la question, les choix, et le numéro de la question
    const questionElement = document.getElementById("question");
    const choicesElement = document.getElementById("choices");
    const questionNumberElement = document.getElementById("question-number");
+   
+   // Élément pour afficher le score *courant* (pendant le jeu)
    const currentScoreElement = document.getElementById("current-score");
+   
+   // Élément pour la barre de progression
    const progressElement = document.getElementById("progress");
+   
+   // Éléments pour l'écran de *résultat* (fin de partie)
    const resultElement = document.getElementById("result");
    const resultMessageElement = document.getElementById("result-message");
-   const finalScoreElement = document.getElementById("final-score");
+   const finalScoreElement = document.getElementById("final-score"); // <-- IMPORTANT
+   
+   // Éléments pour l'écran de *démarrage*
    const startButton = document.getElementById("start-button");
    const startScreen = document.getElementById("start-screen");
-   const quizContent = document.getElementById("quiz-content");
+   const quizContent = document.getElementById("quiz-content");  // Contenu principal
    
    // ----------------
    // SONS
    // ----------------
-   const correctSound = new Audio("correct.mp3"); //  Assurez-vous que le chemin est correct
-   const incorrectSound = new Audio("incorrect.mp3");
    
+   // Crée les objets Audio *avant* la fonction startGame()
+   const correctSound = new Audio("correct.mp3"); //  <--  Chemin vers votre son de bonne réponse
+   const incorrectSound = new Audio("incorrect.mp3"); // <-- Chemin vers votre son de mauvaise réponse
+   
+   // Gestion des erreurs de chargement des sons (important pour la robustesse)
    correctSound.onerror = () => {
        console.error("Erreur de chargement: correct.mp3");
-       correctSound = null;
+       correctSound = null; // Empêche les tentatives de lecture si le chargement a échoué
    };
    incorrectSound.onerror = () => {
        console.error("Erreur de chargement: incorrect.mp3");
        incorrectSound = null;
    };
    
+   
    // ----------------------
    // FONCTIONS DU JEU
    // ----------------------
    
    function startGame() {
-       // 1. Initialisation
+       // 1.  INITIALISATION (Réinitialise l'état du jeu à chaque nouvelle partie)
        currentQuestionIndex = 0;
        score = 0;
        hasAnswered = false;
        updateCurrentScoreDisplay(); // Affiche le score initial (0)
    
-       // 2. Masquer/afficher les bonnes sections
-       resultElement.style.display = "none";
-       startScreen.style.display = "none";
-       quizContent.style.display = "block";
+       // 2.  MASQUER/AFFICHER les bonnes sections de la page
+       resultElement.style.display = "none";   // Cache l'écran de résultat (important)
+       startScreen.style.display = "none";     // Cache l'écran de démarrage
+       quizContent.style.display = "block";    // Affiche le contenu principal du quiz
    
-       // 3. Préparer les questions
+       // 3.  PRÉPARER LES QUESTIONS (sélectionne et mélange les questions pour la partie)
        prepareQuestions();
    
-       // 4. Charger la première question
+       // 4.  CHARGER LA PREMIÈRE QUESTION (pour commencer le jeu)
        loadQuestion();
    }
    
    function prepareQuestions() {
+       // 1. Mélanger les questions de chaque niveau *séparément*
        shuffleArray(easyQuestions);
        shuffleArray(mediumQuestions);
        shuffleArray(hardQuestions);
    
+       // 2. Sélectionner 20 questions de chaque niveau (les 20 premières, car elles sont mélangées)
+       //    et les combiner dans le tableau questionsForCurrentGame.
        questionsForCurrentGame = [
-           ...easyQuestions.slice(0, 20),
-           ...mediumQuestions.slice(0, 20),
-           ...hardQuestions.slice(0, 20)
+           ...easyQuestions.slice(0, 20),   // 20 questions faciles
+           ...mediumQuestions.slice(0, 20), // 20 questions moyennes
+           ...hardQuestions.slice(0, 20)  // 20 questions difficiles
        ];
    
+       // 3. Mélanger *l'ensemble* des 60 questions sélectionnées (pour un ordre aléatoire final)
        shuffleArray(questionsForCurrentGame);
    }
    
-   
+   // Fonction utilitaire pour mélanger un tableau (algorithme de Fisher-Yates)
    function shuffleArray(array) {
        for (let i = array.length - 1; i > 0; i--) {
            const j = Math.floor(Math.random() * (i + 1));
-           [array[i], array[j]] = [array[j], array[i]];
+           [array[i], array[j]] = [array[j], array[i]]; // Échange array[i] et array[j]
        }
    }
    
    function loadQuestion() {
+       // Vérifie si toutes les questions ont été posées (fin du jeu)
        if (currentQuestionIndex >= questionsForCurrentGame.length) {
-           endGame(true); // Fin du jeu (victoire)
+           endGame(true); // Le joueur a répondu à toutes les questions (victoire)
            return;
        }
    
-       hasAnswered = false;
+       hasAnswered = false; // Réinitialise pour permettre de répondre à la nouvelle question
+   
+       // 1.  AFFICHER LA QUESTION
        const currentQuestion = questionsForCurrentGame[currentQuestionIndex];
-   
        questionElement.textContent = currentQuestion.question;
-       questionNumberElement.textContent = `${currentQuestionIndex + 1} / 60`;
-       choicesElement.innerHTML = ""; // Efface les anciens boutons
    
-       currentQuestion.choices.forEach((choice, index) => {
+       // 2.  AFFICHER LE NUMÉRO DE LA QUESTION
+       questionNumberElement.textContent = `${currentQuestionIndex + 1} / 60`;
+   
+       // 3.  CRÉER LES BOUTONS DE RÉPONSE (après avoir mélangé les choix)
+       shuffledChoices = [...currentQuestion.choices]; // Crée une *copie* des choix
+       shuffleArray(shuffledChoices); // Mélange la *copie*
+   
+       choicesElement.innerHTML = ""; // Supprime les anciens boutons de réponse
+       shuffledChoices.forEach((choice, index) => {
            const button = document.createElement("button");
            button.textContent = choice;
-           button.classList.add("choice");
-           button.classList.add(`choice-${index + 1}`);
-           button.addEventListener("click", () => selectAnswer(index));
-           choicesElement.appendChild(button);
+           button.classList.add("choice"); // Classe CSS générale pour tous les boutons
+           button.classList.add(`choice-${index + 1}`); // Classe CSS spécifique (choice-1, choice-2, etc.)
+           button.addEventListener("click", () => selectAnswer(index)); // Ajoute un écouteur de clic
+           choicesElement.appendChild(button); // Ajoute le bouton au DOM
        });
    
+       // 4.  METTRE À JOUR LA BARRE DE PROGRESSION
        updateProgressBar();
    
-       // Couleurs de fond
+       // 5.  Gérer la couleur de fond en fonction du niveau de difficulté de la question
        if (currentQuestionIndex < 20) {
            document.body.classList.add("easy-mode");
            document.body.classList.remove("medium-mode", "hard-mode");
@@ -420,47 +448,50 @@ const hardQuestions = [
            document.body.classList.remove("easy-mode", "medium-mode");
        }
    }
-   
-   
    function selectAnswer(selectedIndex) {
+   
        if (hasAnswered) return;
        hasAnswered = true;
-   
        const currentQuestion = questionsForCurrentGame[currentQuestionIndex];
-       const selectedButton = choicesElement.children[selectedIndex];
    
-       if (selectedIndex === currentQuestion.answer) {
-           // Bonne réponse
-           if (currentQuestionIndex < 20) {
-               score += 10;
-           } else if (currentQuestionIndex < 40) {
-               score += 20;
-           } else {
-               score += 30;
-           }
-           updateCurrentScoreDisplay();
+       //CORRECTION
+       const selectedChoiceText = shuffledChoices[selectedIndex];
    
-           selectedButton.classList.add("correct-answer");
    
-           if (correctSound) correctSound.play();
-   
-           setTimeout(() => {
-               selectedButton.classList.remove("correct-answer");
-               currentQuestionIndex++;
-               if (currentQuestionIndex < questionsForCurrentGame.length) {
-                   loadQuestion();
-               } else {
-                   endGame(true); // Fin du jeu (victoire)
-               }
-           }, 500);
-   
+       if (currentQuestion.choices.indexOf(selectedChoiceText) === currentQuestion.answer) {
+       // Bonne réponse
+       if (currentQuestionIndex < 20) {
+           score += 10;
+       } else if (currentQuestionIndex < 40) {
+           score += 20;
        } else {
-           // Mauvaise réponse
-           if (incorrectSound) incorrectSound.play();
-           endGame(false); // Fin du jeu (défaite)
+           score += 30;
        }
+       updateCurrentScoreDisplay();
+   
+       // Utilisation de l'index correct pour l'animation
+       choicesElement.children[selectedIndex].classList.add("correct-answer");
+   
+       if (correctSound) correctSound.play();
+   
+       setTimeout(() => {
+           choicesElement.children[selectedIndex].classList.remove("correct-answer"); // <-- On utilise selectedIndex
+           currentQuestionIndex++;
+           if (currentQuestionIndex < questionsForCurrentGame.length) {
+               loadQuestion();
+           } else {
+               endGame(true);
+           }
+       }, 500);
+   
+   } else {
+       // Mauvaise réponse
+       if (incorrectSound) incorrectSound.play();
+       endGame(false);
+   }
    }
    
+   // Met à jour l'affichage du score *courant* (pendant le jeu)
    function updateCurrentScoreDisplay() {
        currentScoreElement.textContent = score;
    }
@@ -469,41 +500,47 @@ const hardQuestions = [
        const progressPercentage = (currentQuestionIndex / 60) * 100;
        progressElement.style.width = `${progressPercentage}%`;
    
+       // Changement de couleur progressif vers le rouge
        const redValue = Math.floor(255 * (progressPercentage / 100));
        progressElement.style.backgroundColor = `rgb(${redValue}, ${200 - redValue}, 0)`;
    }
    
-   //*** Fonction endGame CORRECTE (vérifiée) ***
    function endGame(isWin) {
-       // Masque/affiche les sections
-       choicesElement.innerHTML = ""; // Efface les boutons
-       questionElement.textContent = ""; // Efface la question
+       // 1.  MASQUER/AFFICHER les bonnes sections
+       choicesElement.innerHTML = "";       // Efface les boutons de réponse
+       questionElement.textContent = "";    // Efface la question
+       resultElement.style.display = "block";  // Affiche la section des résultats
+       quizContent.style.display = "none";     // Cache le contenu principal du quiz
+       startScreen.style.display = "block";    // Affiche l'écran de démarrage
    
-       quizContent.style.display = "none"; // Cache le quiz
-       startScreen.style.display = "block"; // Montre l'écran de démarrage
-       resultElement.style.display = "block"; // Affiche l'écran de résultat
-   
-   
-       // Affiche le message et le score
+       // 2.  AFFICHER LE MESSAGE ET LE SCORE FINAL
        if (isWin) {
            resultMessageElement.textContent = "Félicitations ! Vous avez gagné !";
-           finalScoreElement.textContent = ""; // Pas de score si victoire
+           finalScoreElement.textContent = `Score final : ${score} points`; // <-- Affiche le score final
+   
        } else {
-           resultMessageElement.textContent = "Vous avez perdu !"; // Message de défaite
-           finalScoreElement.textContent = `Score final : ${score} points`; // Score final
+           resultMessageElement.textContent = "Vous avez perdu !"; // <-- Message de défaite
+           finalScoreElement.textContent = `Score final : ${score} points`; // <-- Affiche le score final
        }
    
-       startButton.textContent = "Recommencer la partie"; //modifie le texte du bouton
-        // Gère les listeners (simplifié et correct)
-       startButton.removeEventListener("click", startGame);
-       startButton.addEventListener("click", startGame);
+       // 3.  REMETTRE LE TEXTE DU BOUTON "Démarrer" (pour la prochaine partie)
+       startButton.textContent = "Recommencer";
    
-       // Réinitialise l'état du jeu
+       // 4.  GÉRER LES ÉCOUTEURS D'ÉVÉNEMENTS (pour éviter les comportements inattendus)
+       startButton.removeEventListener("click", startGame); // Supprime l'ancien écouteur (important!)
+       startButton.addEventListener("click", startGame);    // Ajoute le nouvel écouteur
+   
+       // 5.  RÉINITIALISER LA BARRE DE PROGRESSION
        progressElement.style.width = "0%";
-       questionNumberElement.textContent = "";
+       questionNumberElement.textContent = "";  // Efface le numéro de la question
+   
+       // 6.  SUPPRIMER LES CLASSES DE COULEUR DE FOND
        document.body.classList.remove("easy-mode", "medium-mode", "hard-mode");
    }
    
    
-   // Lance le jeu au clic sur le bouton "Démarrer"
-   startButton.addEventListener("click", startGame);
+   // -------------------------------------
+   // DÉMARRAGE DU JEU (au chargement)
+   // -------------------------------------
+   
+   startButton.addEventListener("click", startGame);  //  <--  C'est *cette* ligne qui lance le jeu
