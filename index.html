@@ -13,7 +13,7 @@
         <h1 id="game-title"><i class="fas fa-trophy"></i> QUIX <i class="fas fa-trophy"></i></h1>
 
         <div id="start-screen">
-            <button id="start-button">Démarrer la partie</button>
+            <button id="start-button">Démarrer</button>
         </div>
 
         <div id="quiz-content" style="display: none;">
@@ -38,14 +38,15 @@
                 </div>
             </div>
 
-            {/* Écran de résultat - DOIT être en dehors de #question-container */}
-            <div id="result" style="display: none;">
-                <p id="result-message"></p>  {/* <-- Message de résultat */}
-                <p id="final-score"></p>     {/* <-- Score final */}
-                <button id="restart-button">Recommencer</button> {/* <-- Bouton */}
-            </div>
+        </div>
+        <div id="result" style="display: none;">
+            <p id="result-message"></p>
+            <p id="final-score"></p>
         </div>
     </div>
+
+    <audio id="correct-sound" src="correct.mp3" preload="auto"></audio>
+    <audio id="incorrect-sound" src="incorrect.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
